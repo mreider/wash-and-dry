@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: waterfall
-        image: mreider/waterfall:1
+        image: mreider/waterfall:5
         volumeMounts:
         - name: log-volume
           mountPath: /var/log
