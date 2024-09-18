@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: generator
-        image: mreider/generator:1
+        image: mreider/generator:2
         ports:
         - containerPort: 5000
