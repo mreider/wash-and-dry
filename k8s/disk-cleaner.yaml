@@ -22,4 +22,4 @@ spec:
       volumes:
       - name: log-volume
         persistentVolumeClaim:
-          claimName: otel-logs-pvc
+          claimName: otel-spans-pvc
