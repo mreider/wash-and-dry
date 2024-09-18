@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: disk-cleaner
-        image: mreider/disk-cleaner:5
+        image: mreider/disk-cleaner:6
         volumeMounts:
         - name: log-volume
           mountPath: /var/log

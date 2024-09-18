@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: dry
-        image: mreider/dry:5
+        image: mreider/dry:6
         ports:
         - containerPort: 5002
 ---
