@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: wash
-        image: mreider/wash:8
+        image: mreider/wash:9
         ports:
         - containerPort: 5001
 ---
