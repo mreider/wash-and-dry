@@ -21,17 +21,14 @@ new_disk_cleaner_version=$(update_image_version "k8s/disk-cleaner.yaml" "disk-cl
 new_waterfall_version=$(update_image_version "k8s/waterfall.yaml" "waterfall")
 
 # Build and push Docker images
-cd wash/
-sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/wash:$new_wash_version --push .
 
-cd ../dry/
-sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/dry:$new_dry_version --push .
+sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/wash:$new_wash_version -f wash/Dockerfile --push .
 
-cd ../disk_cleaner/
-sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/disk_cleaner:$new_disk_cleaner_version --push .
+sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/dry:$new_dry_version -f dry/Dockerfile--push .
 
-cd ../waterfall/
-sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/waterfall:$new_waterfall_version --push .
+sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/disk_cleaner:$new_disk_cleaner_version -f disk_cleaner/Dockerfile --push .
+
+sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/waterfall:$new_waterfall_version -f waterfall/Dockerfile --push .
 
 # Commit changes to GitHub
 git add .
