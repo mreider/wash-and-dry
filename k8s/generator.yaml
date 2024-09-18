@@ -1,0 +1,21 @@
+# laundry-generator-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: generator
+  namespace: wash-and-dry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: generator
+  template:
+    metadata:
+      labels:
+        app: generator
+    spec:
+      containers:
+      - name: generator
+        image: mreider/generator:1
+        ports:
+        - containerPort: 5000

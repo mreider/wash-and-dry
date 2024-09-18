@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wash
+  namespace: wash-and-dry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wash
+  template:
+    metadata:
+      labels:
+        app: wash
+    spec:
+      containers:
+      - name: wash
+        image: mreider/wash:1
+        ports:
+        - containerPort: 5001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wash
+  namespace: wash-and-dry
+spec:
+  selector:
+    app: wash
+  ports:
+    - protocol: TCP
+      port: 5001
+      targetPort: 5001

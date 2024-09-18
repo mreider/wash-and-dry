@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: disk-cleaner
+  namespace: wash-and-dry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: disk-cleaner
+  template:
+    metadata:
+      labels:
+        app: disk-cleaner
+    spec:
+      containers:
+      - name: disk-cleaner
+        image: mreider/disk-cleaner:1
+        volumeMounts:
+        - name: log-volume
+          mountPath: /var/log
+      volumes:
+      - name: log-volume
+        persistentVolumeClaim:
+          claimName: otel-logs-pvc

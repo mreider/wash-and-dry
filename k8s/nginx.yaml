@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: wash-and-dry
+data:
+  nginx.conf: |
+    events {}
+
+    http {
+        log_format zipkin '{ "traceId": "$http_x_b3_traceid", '
+                          '"spanId": "$http_x_b3_spanid", '
+                          '"parentSpanId": "$http_x_b3_parentspanid", '
+                          '"name": "$request_uri", '
+                          '"timestamp": "$msec", '
+                          '"duration": "$request_time", '
+                          '"tags": { "http.method": "$request_method", "http.url": "$request_uri" } }';
+
+        access_log /var/log/nginx/access.log zipkin;
+
+        server {
+            listen 80;
+            location / {
+                proxy_pass http://dry:5002/dry;
+                proxy_set_header X-B3-TraceId $http_x_b3_traceid;
+                proxy_set_header X-B3-SpanId $http_x_b3_spanid;
+                proxy_set_header X-B3-ParentSpanId $http_x_b3_parentspanid;
+                proxy_set_header X-B3-Sampled $http_x_b3_sampled;
+                proxy_set_header traceparent $http_traceparent;
+                proxy_set_header tracestate $http_tracestate;
+            }
+        }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reverse-proxy
+  namespace: wash-and-dry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reverse-proxy
+  template:
+    metadata:
+      labels:
+        app: reverse-proxy
+    spec:
+      containers:
+      - name: reverse-proxy
+        image: nginx:alpine
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        ports:
+        - containerPort: 80
+      volumes:
+      - name: config-volume
+        configMap:
+          name: nginx-config
+          items:
+          - key: nginx.conf
+            path: nginx.conf
