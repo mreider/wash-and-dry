@@ -17,7 +17,7 @@ update_image_version() {
 # Update image versions in YAML files
 new_wash_version=$(update_image_version "k8s/wash.yaml" "wash")
 new_dry_version=$(update_image_version "k8s/dry.yaml" "dry")
-new_disk_cleaner_version=$(update_image_version "k8s/disk-cleaner.yaml" "disk-cleaner")
+new_disk_cleaner_version=$(update_image_version "k8s/disk-cleaner.yaml" "disk_cleaner")
 new_waterfall_version=$(update_image_version "k8s/waterfall.yaml" "waterfall")
 
 # Build and push Docker images
