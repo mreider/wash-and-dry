@@ -19,13 +19,15 @@ new_wash_version=$(update_image_version "k8s/wash.yaml" "wash")
 new_dry_version=$(update_image_version "k8s/dry.yaml" "dry")
 new_disk_cleaner_version=$(update_image_version "k8s/disk-cleaner.yaml" "disk_cleaner")
 new_waterfall_version=$(update_image_version "k8s/waterfall.yaml" "waterfall")
+new_generator_version=$(update_image_version "k8s/generator.yaml" "generator")
 
 # Build and push Docker images
 
 sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/wash:$new_wash_version -f wash/Dockerfile --push .
-sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/dry:$new_dry_version -f dry/Dockerfile--push .
+sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/dry:$new_dry_version -f dry/Dockerfile --push .
 sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/disk_cleaner:$new_disk_cleaner_version -f disk_cleaner/Dockerfile --push .
 sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/waterfall:$new_waterfall_version -f waterfall/Dockerfile --push .
+sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/generator:$new_generator_version -f generator/Dockerfile --push .
 
 # Commit changes to GitHub
 git add .
