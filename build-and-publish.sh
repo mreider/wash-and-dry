@@ -23,11 +23,8 @@ new_waterfall_version=$(update_image_version "k8s/waterfall.yaml" "waterfall")
 # Build and push Docker images
 
 sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/wash:$new_wash_version -f wash/Dockerfile --push .
-
 sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/dry:$new_dry_version -f dry/Dockerfile--push .
-
 sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/disk_cleaner:$new_disk_cleaner_version -f disk_cleaner/Dockerfile --push .
-
 sudo docker buildx build --no-cache --platform linux/amd64,linux/arm64 -t mreider/waterfall:$new_waterfall_version -f waterfall/Dockerfile --push .
 
 # Commit changes to GitHub
